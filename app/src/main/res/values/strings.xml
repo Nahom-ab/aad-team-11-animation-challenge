@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Team-11-Animation-Challenge</string>
+    <string name="app_name">Animation Challenge</string>
+    <string name="intro">Welcome to Trivia!</string>
 </resources>
