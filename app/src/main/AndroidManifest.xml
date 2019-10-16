@@ -14,7 +14,7 @@
         <activity
             android:name=".ModalActivity"
             android:label="@string/title_activity_modal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+           ></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
