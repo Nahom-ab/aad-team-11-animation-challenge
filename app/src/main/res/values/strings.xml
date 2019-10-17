@@ -2,4 +2,5 @@
     <string name="app_name">Team 11 Trivia</string>
     <string name="intro">Welcome to Team 11 Trivia!</string>
     <string name="choose_category">Choose Category</string>
+    <string name="trivia_quiz">Trivia Quiz</string>
 </resources>
