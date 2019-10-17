@@ -9,9 +9,11 @@ public class TriviaRequest {
         return results;
     }
 
+    public int getSize() {
+        return results.size();
+    }
+
     public void setResults(List<TriviaResult> results) {
         this.results = results;
     }
-
-
 }
