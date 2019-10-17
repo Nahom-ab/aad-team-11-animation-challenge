@@ -49,6 +49,7 @@ public class TriviaActivity extends AppCompatActivity {
     private TriviaResult result;
     private List<CharSequence> questions;
     private ActionBar supportActionBar;
+    private Button button5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +62,11 @@ public class TriviaActivity extends AppCompatActivity {
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setHomeButtonEnabled(true);
         questionText = (TextView) findViewById(R.id.questionText);
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button) findViewById(R.id.button3);
-        button4 = (Button) findViewById(R.id.button4);
+        button1 = (Button) findViewById(R.id.button_trivia_1);
+        button2 = (Button) findViewById(R.id.button_trivia_2);
+        button3 = (Button) findViewById(R.id.button_trivia_3);
+        button4 = (Button) findViewById(R.id.button_trivia_4);
+        button5 = (Button) findViewById(R.id.button_trivia_next);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +127,9 @@ public class TriviaActivity extends AppCompatActivity {
     }
 
     private void moveNext() {
+
+        clearButtonImages();
+
         if (position == triviaRequest.getSize() - 1) {
             Toast.makeText(this, "End of Questions Reached", Toast.LENGTH_SHORT).show();
         } else {
@@ -132,6 +137,13 @@ public class TriviaActivity extends AppCompatActivity {
             result = triviaRequest.getResults().get(position);
             displayQuestion(result);
         }
+    }
+
+    private void clearButtonImages() {
+        button1.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        button2.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        button3.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        button4.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
     }
 
     private void displayQuestion(TriviaResult result) {
@@ -166,6 +178,13 @@ public class TriviaActivity extends AppCompatActivity {
                 Log.d("correctAnswer", correctAnswer.toString());
                 Log.d("Button1 Text ", button1.getText().toString());
 
+                button5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        moveNext();
+                    }
+                });
+
 
                 button1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -175,13 +194,13 @@ public class TriviaActivity extends AppCompatActivity {
                         if (button1.getText().toString().equals(correctAnswer.toString())) {
                             try {
                                 //Right Answer Animation Here.
-                                moveNext();
+                                button1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             //Wrong Answer Animation Here
-                            button1.setText("---");
+                            button1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_wrong_black_24dp, 0);
                         }
                     }
                 });
@@ -194,13 +213,13 @@ public class TriviaActivity extends AppCompatActivity {
                         if (button2.getText().toString().equals(correctAnswer.toString())) {
                             try {
                                 //Right Answer Animation Here.
-                                moveNext();
+                                button2.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             //Wrong Answer Animation Here
-                            button2.setText("---");
+                            button2.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_wrong_black_24dp, 0);
                         }
                     }
                 });
@@ -212,13 +231,13 @@ public class TriviaActivity extends AppCompatActivity {
                         if (button3.getText().toString().equals(correctAnswer.toString())) {
                             try {
                                 //Right Answer Animation Here.
-                                moveNext();
+                                button3.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             //Wrong Answer Animation Here
-                            button3.setText("---");
+                            button3.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_wrong_black_24dp, 0);
                         }
                     }
                 });
@@ -230,13 +249,13 @@ public class TriviaActivity extends AppCompatActivity {
                         if (button4.getText().toString().equals(correctAnswer.toString())) {
                             try {
                                 //Right Answer Animation Here.
-                                moveNext();
+                                button4.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             //Wrong Answer Animation Here
-                            button4.setText("---");
+                            button4.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_wrong_black_24dp, 0);
                         }
                     }
                 });
