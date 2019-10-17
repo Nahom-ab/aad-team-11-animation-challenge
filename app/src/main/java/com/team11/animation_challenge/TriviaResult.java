@@ -10,6 +10,7 @@ public class TriviaResult {
     private String correct_answer;
     private List<String> incorrect_answers;
 
+
     public TriviaResult(){}
 
     public TriviaResult(String category, String type, String difficulty, String question, String correct_answer, List<String> incorrect_answers) {

@@ -8,22 +8,20 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    public Button openButton;
+    public Button chooseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        openButton = (Button) findViewById(R.id.openButton);
-        openButton.setOnClickListener(new View.OnClickListener() {
+        chooseButton = (Button) findViewById(R.id.choose);
+        chooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent triviaIntent = new Intent(view.getContext(), TriviaActivity.class);
+                Intent triviaIntent = new Intent(view.getContext(), CategoryActivity.class);
                 startActivity(triviaIntent);
-
             }
         });
-
     }
 }

@@ -1,5 +1,6 @@
 package com.team11.animation_challenge;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,36 +32,45 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class TriviaActivity extends AppCompatActivity {
-
+    public static final String CATEGORY_URL = "com.team11.animation_challenge.CATEGORY_URL";
+    public static final String CATEGORY_TITLE = "com.team11.animation_challenge.CATEGORY_TITLE";
     public final OkHttpClient client = new OkHttpClient();
 
-    public String url = "https://opentdb.com/api.php?amount=1&type=multiple";
+    private String url;
+    private String title;
+    private int position = 0;
     public TextView questionText;
-    public TextView questionCata;
     public Button button1;
     public Button button2;
     public Button button3;
     public Button button4;
-    public ImageButton nextButton;
+    public ImageButton restartButton;
+    private TriviaRequest triviaRequest;
+    private TriviaResult result;
+    private List<CharSequence> questions;
+    private ActionBar supportActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trivia);
-        getSupportActionBar().setTitle("Trivia");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getUrlFromIntent();
+        supportActionBar = getSupportActionBar();
+        assert supportActionBar != null;
+        supportActionBar.setTitle(title);
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setHomeButtonEnabled(true);
         questionText = (TextView) findViewById(R.id.questionText);
-        questionCata = (TextView) findViewById(R.id.questionCata);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
-        nextButton = (ImageButton) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        restartButton = (ImageButton) findViewById(R.id.restartButton);
+        restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    position = 0;
                     fetch();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -74,6 +85,12 @@ public class TriviaActivity extends AppCompatActivity {
 
     }
 
+    private void getUrlFromIntent() {
+        Intent intent = getIntent();
+        url = intent.getStringExtra(CATEGORY_URL);
+        title = intent.getStringExtra(CATEGORY_TITLE);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -81,7 +98,6 @@ public class TriviaActivity extends AppCompatActivity {
     }
 
     private void fetch() throws Exception {
-        // Swap url with one that comes from categories screen intent
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -96,127 +112,137 @@ public class TriviaActivity extends AppCompatActivity {
                 try (ResponseBody responseBody = response.body()) {
                     if (!response.isSuccessful())
                         throw new IOException("Unexpected code " + response);
-
                     GsonBuilder builder = new GsonBuilder();
                     Gson gson = builder.create();
                     assert responseBody != null;
                     String Body = responseBody.string();
-                    Log.d("response", Body);
-                    TriviaRequest triviaRequest = gson.fromJson(Body, TriviaRequest.class);
-                    Log.d("triviaRequest", String.valueOf(triviaRequest));
-                    TriviaResult result = triviaRequest.getResults().get(0);
-                    Log.d("triviaResult category", String.valueOf(result.getCategory()));
-
-                    final List<CharSequence> questions = new ArrayList<>();
-                    final Spanned question = Html.fromHtml(result.getQuestion());
-                    final Spanned questionCategory = Html.fromHtml(result.getCategory());
-                    final Spanned correctAnswer = Html.fromHtml(result.getCorrect_answer());
-                    Spanned incorrectAnswer1 = Html.fromHtml(result.getIncorrect_answers().get(0));
-                    Spanned incorrectAnswer2 = Html.fromHtml(result.getIncorrect_answers().get(1));
-                    Spanned incorrectAnswer3 = Html.fromHtml(result.getIncorrect_answers().get(2));
-                    questions.add(correctAnswer);
-                    questions.add(incorrectAnswer1);
-                    questions.add(incorrectAnswer2);
-                    questions.add(incorrectAnswer3);
-                    Log.d("questions", questions.toString());
-                    Collections.shuffle(questions);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Stuff that updates the UI
-                            questionText.setText(question);
-                            questionCata.setText(questionCategory);
-                            button1.setText(questions.get(0));
-                            button2.setText(questions.get(1));
-                            button3.setText(questions.get(2));
-                            button4.setText(questions.get(3));
-                            button1.setClickable(true);
-                            button2.setClickable(true);
-                            button3.setClickable(true);
-                            button4.setClickable(true);
-                            Log.d("correctAnswer", correctAnswer.toString());
-                            Log.d("Button1 Text ", button1.getText().toString());
-
-
-                            button1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Button btn = (Button) view;
-                                    btn.setClickable(false);
-                                    if (button1.getText().toString().equals(correctAnswer.toString())) {
-                                        try {
-                                            //Right Answer Animation Here.
-                                            fetch();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        //Wrong Answer Animation Here
-                                        button1.setText("---");
-                                    }
-                                }
-                            });
-
-                            button2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Button btn = (Button) view;
-                                    btn.setClickable(false);
-                                    if (button2.getText().toString().equals(correctAnswer.toString())) {
-                                        try {
-                                            //Right Answer Animation Here.
-                                            fetch();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        //Wrong Answer Animation Here
-                                        button2.setText("---");
-                                    }
-                                }
-                            });
-                            button3.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Button btn = (Button) view;
-                                    btn.setClickable(false);
-                                    if (button3.getText().toString().equals(correctAnswer.toString())) {
-                                        try {
-                                            //Right Answer Animation Here.
-                                            fetch();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        //Wrong Answer Animation Here
-                                        button3.setText("---");
-                                    }
-                                }
-                            });
-                            button4.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Button btn = (Button) view;
-                                    btn.setClickable(false);
-                                    if (button4.getText().toString().equals(correctAnswer.toString())) {
-                                        try {
-                                            //Right Answer Animation Here.
-                                            fetch();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        //Wrong Answer Animation Here
-                                        button4.setText("---");
-
-                                    }
-                                }
-                            });
-                        }
-                    });
+                    triviaRequest = gson.fromJson(Body, TriviaRequest.class);
+                    result = triviaRequest.getResults().get(position);
+                    displayQuestion(result);
                 }
             }
         });
     }
+
+    private void moveNext() {
+        if (position == triviaRequest.getSize() - 1) {
+            Toast.makeText(this, "End of Questions Reached", Toast.LENGTH_SHORT).show();
+        } else {
+            ++position;
+            result = triviaRequest.getResults().get(position);
+            displayQuestion(result);
+        }
+    }
+
+    private void displayQuestion(TriviaResult result) {
+        Log.d("position", String.valueOf(position));
+        Log.d("question", String.valueOf(result.getQuestion()));
+        questions = new ArrayList<>();
+        final Spanned question = Html.fromHtml(result.getQuestion());
+        final Spanned correctAnswer = Html.fromHtml(result.getCorrect_answer());
+        Spanned incorrectAnswer1 = Html.fromHtml(result.getIncorrect_answers().get(0));
+        Spanned incorrectAnswer2 = Html.fromHtml(result.getIncorrect_answers().get(1));
+        Spanned incorrectAnswer3 = Html.fromHtml(result.getIncorrect_answers().get(2));
+        questions.add(correctAnswer);
+        questions.add(incorrectAnswer1);
+        questions.add(incorrectAnswer2);
+        questions.add(incorrectAnswer3);
+
+        Collections.shuffle(questions);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Stuff that updates the UI
+                questionText.setText(question);
+                button1.setText(questions.get(0));
+                button2.setText(questions.get(1));
+                button3.setText(questions.get(2));
+                button4.setText(questions.get(3));
+                button1.setClickable(true);
+                button2.setClickable(true);
+                button3.setClickable(true);
+                button4.setClickable(true);
+                Log.d("correctAnswer", correctAnswer.toString());
+                Log.d("Button1 Text ", button1.getText().toString());
+
+
+                button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Button btn = (Button) view;
+                        btn.setClickable(false);
+                        if (button1.getText().toString().equals(correctAnswer.toString())) {
+                            try {
+                                //Right Answer Animation Here.
+                                moveNext();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            //Wrong Answer Animation Here
+                            button1.setText("---");
+                        }
+                    }
+                });
+
+                button2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Button btn = (Button) view;
+                        btn.setClickable(false);
+                        if (button2.getText().toString().equals(correctAnswer.toString())) {
+                            try {
+                                //Right Answer Animation Here.
+                                moveNext();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            //Wrong Answer Animation Here
+                            button2.setText("---");
+                        }
+                    }
+                });
+                button3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Button btn = (Button) view;
+                        btn.setClickable(false);
+                        if (button3.getText().toString().equals(correctAnswer.toString())) {
+                            try {
+                                //Right Answer Animation Here.
+                                moveNext();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            //Wrong Answer Animation Here
+                            button3.setText("---");
+                        }
+                    }
+                });
+                button4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Button btn = (Button) view;
+                        btn.setClickable(false);
+                        if (button4.getText().toString().equals(correctAnswer.toString())) {
+                            try {
+                                //Right Answer Animation Here.
+                                moveNext();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            //Wrong Answer Animation Here
+                            button4.setText("---");
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
 }
