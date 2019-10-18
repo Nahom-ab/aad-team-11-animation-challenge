@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -47,6 +48,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
     private TextView questionText;
     private TextView questionCount;
+    private ProgressBar pbar;
     private Spanned correctAnswer;
     private Spanned question;
     private Button button1;
@@ -73,6 +75,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         supportActionBar.setHomeButtonEnabled(true);
         questionText = (TextView) findViewById(R.id.question_text);
         questionCount = (TextView) findViewById(R.id.question_count);
+        pbar = findViewById(R.id.counter_pbar);
         button1 = (Button) findViewById(R.id.button_trivia_1);
         button2 = (Button) findViewById(R.id.button_trivia_2);
         button3 = (Button) findViewById(R.id.button_trivia_3);
@@ -198,6 +201,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             public void run() {
                 // Stuff that updates the UI
                 questionCount.setText(getString(R.string.question_Count, position + 1, 11));
+                pbar.setProgress(position + 1);
                 questionText.setText(question);
                 button1.setText(questions.get(0));
                 button2.setText(questions.get(1));
