@@ -2,55 +2,61 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".TriviaActivity">
 
-    <ImageButton
-        android:id="@+id/restartButton"
+
+    <TextView
+        android:id="@+id/question_count"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_rotate"
-        app:layout_constraintBottom_toTopOf="@+id/questionText"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="#8A93BB"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/questionText"
+        android:id="@+id/question_text"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="..."
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_trivia_1"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restartButton"
+        app:layout_constraintTop_toBottomOf="@+id/question_count"
         app:textAllCaps="false" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".4" />
 
     <Button
         android:id="@+id/button_trivia_1"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toTopOf="@+id/button_trivia_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/colorAccent"
         app:strokeWidth="3dp" />
@@ -58,15 +64,16 @@
     <Button
         android:id="@+id/button_trivia_2"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toTopOf="@+id/button_trivia_3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/colorAccent"
         app:strokeWidth="3dp" />
@@ -74,10 +81,12 @@
     <Button
         android:id="@+id/button_trivia_3"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toTopOf="@+id/button_trivia_4"
@@ -90,10 +99,12 @@
     <Button
         android:id="@+id/button_trivia_4"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,16 +113,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/colorAccent"
         app:strokeWidth="3dp" />
-
-    <Button
-        android:id="@+id/button_trivia_next"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:text="Next"
-        app:cornerRadius="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_trivia_4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
