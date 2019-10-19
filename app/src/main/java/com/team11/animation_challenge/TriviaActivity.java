@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
@@ -41,7 +42,7 @@ import okhttp3.ResponseBody;
 public class TriviaActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String CATEGORY_URL = "com.team11.animation_challenge.CATEGORY_URL";
     public static final String CATEGORY_TITLE = "com.team11.animation_challenge.CATEGORY_TITLE";
-    public static final int TIME_LIMIT = 1000 * 60; //One Minute
+    public static final int TIME_LIMIT = 1000 * 15; //One Minute
     public final OkHttpClient client = new OkHttpClient();
 
     private String url;
@@ -78,7 +79,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         supportActionBar.setHomeButtonEnabled(true);
         questionText = (TextView) findViewById(R.id.question_text);
         questionCount = (TextView) findViewById(R.id.question_count);
-        timerProgressBar = findViewById(R.id.timer_progress_bar);
+        timerProgressBar = (ProgressBar) findViewById(R.id.timer_progress_bar);
         timerProgressBar.setMax(TIME_LIMIT);
 
         button1 = (Button) findViewById(R.id.button_trivia_1);
@@ -92,11 +93,19 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
         categoryToTriviaAnimation();
 
+        progressBarAnimation();
+
         try {
             fetch();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void progressBarAnimation(){
+        timerProgressBar.setProgress(0);
+        final ObjectAnimator progressBarOA = ObjectAnimator.ofInt(timerProgressBar, "progress", TIME_LIMIT).setDuration(TIME_LIMIT);
+        progressBarOA.start();
     }
 
     private void categoryToTriviaAnimation() {
@@ -105,7 +114,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         ObjectAnimator button2OA = ObjectAnimator.ofPropertyValuesHolder(button2, translationX).setDuration(1000);
         ObjectAnimator button3OA = ObjectAnimator.ofPropertyValuesHolder(button3, translationX).setDuration(1000);
         ObjectAnimator button4OA = ObjectAnimator.ofPropertyValuesHolder(button4, translationX).setDuration(1000);
-        ObjectAnimator progressBarOA = ObjectAnimator.ofPropertyValuesHolder(timerProgressBar, translationX).setDuration(1000);
+        ObjectAnimator progressBarTOA = ObjectAnimator.ofPropertyValuesHolder(timerProgressBar, translationX).setDuration(1000);
         ObjectAnimator questionTextOA = ObjectAnimator.ofPropertyValuesHolder(questionText, translationX).setDuration(1000);
 
         button1OA.start();
@@ -113,7 +122,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         button3OA.start();
         button4OA.start();
         questionTextOA.start();
-        progressBarOA.start();
+        progressBarTOA.start();
     }
 
 
@@ -188,6 +197,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
         clearButtonImages();
 
+        questionChangeAnimation();
+
         if (position == triviaRequest.getSize() - 1) {
             showCompletedDialog();
         } else {
@@ -195,6 +206,24 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             result = triviaRequest.getResults().get(position);
             displayQuestion(result);
         }
+    }
+
+    private void questionChangeAnimation() {
+        PropertyValuesHolder translationX = PropertyValuesHolder.ofFloat("translationX", -10000f, 0f);
+        PropertyValuesHolder fadeOut = PropertyValuesHolder.ofFloat("alpha", 1, 0);
+        PropertyValuesHolder fadeIn = PropertyValuesHolder.ofFloat("alpha", 0, 1);
+
+        ObjectAnimator button1OA = ObjectAnimator.ofPropertyValuesHolder(button1, fadeOut,fadeIn).setDuration(1000);
+        ObjectAnimator button2OA = ObjectAnimator.ofPropertyValuesHolder(button2, fadeOut,fadeIn).setDuration(1000);
+        ObjectAnimator button3OA = ObjectAnimator.ofPropertyValuesHolder(button3, fadeOut,fadeIn).setDuration(1000);
+        ObjectAnimator button4OA = ObjectAnimator.ofPropertyValuesHolder(button4, fadeOut,fadeIn).setDuration(1000);
+        ObjectAnimator questionTextOA = ObjectAnimator.ofPropertyValuesHolder(questionText, translationX).setDuration(500);
+        questionTextOA.start();
+        button1OA.start();
+        button2OA.start();
+        button3OA.start();
+        button4OA.start();
+        progressBarAnimation();
     }
 
     private void clearButtonImages() {
@@ -243,7 +272,10 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         Button btn = (Button) view;
-        btn.setClickable(false);
+        button1.setClickable(false);
+        button2.setClickable(false);
+        button3.setClickable(false);
+        button4.setClickable(false);
         if (btn.getText().toString().equals(correctAnswer.toString())) {
             //Right Answer Animation Here.
             ++correct;
