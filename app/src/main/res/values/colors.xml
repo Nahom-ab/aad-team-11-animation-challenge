@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#252C4A</color>
     <color name="colorAccent">#107EEB</color>
     <color name="white">#fdfdfd</color>
-    <color name="pink">#FFD81B60</color>
+    <color name="pink">#F2537E</color>
+    <color name="faded_bg">#3F4768</color>
+
 
 </resources>
