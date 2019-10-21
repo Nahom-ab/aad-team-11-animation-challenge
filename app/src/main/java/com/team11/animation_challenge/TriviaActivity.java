@@ -22,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     private AlertDialog completedDialog;
     private TranslateAnimation animObj;
     private ObjectAnimator progressBarOA;
+    private ImageView modalTrophyImage;
 
 
     @Override
@@ -167,6 +169,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         dialogButton = (Button) layoutView.findViewById(R.id.button_dialog);
         TextView resultText = (TextView) layoutView.findViewById(R.id.result_text);
         TextView praiseText = (TextView) layoutView.findViewById(R.id.praise_text);
+        modalTrophyImage = (ImageView) findViewById(R.id.award);
 
         dialogBuilder.setView(layoutView);
         completedDialog = dialogBuilder.create();
@@ -182,6 +185,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
             praiseText.setText(R.string.perfect_score);
         }
 
+        completedDialog.getWindow().getAttributes().windowAnimations = R.style.CompletedDialogAnimation;
+
         completedDialog.show();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +198,14 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         });
+    }
+
+    private void trophyAnimation() {
+        PropertyValuesHolder rotateX = PropertyValuesHolder.ofFloat("rotationX", 0f, 360f);
+        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", -10000f, 0f);
+        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", -10000f, 0f);
+        ObjectAnimator imageOA = ObjectAnimator.ofPropertyValuesHolder(modalTrophyImage, rotateX).setDuration(10000);
+        imageOA.start();
     }
 
     private void getUrlFromIntent() {

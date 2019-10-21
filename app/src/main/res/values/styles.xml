@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CompletedDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/CompletedDialogAnimation</item>
+    </style>
+
+    <style name="CompletedDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
 </resources>
