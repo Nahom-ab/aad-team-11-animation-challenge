@@ -1,6 +1,7 @@
 package com.team11.animation_challenge;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +11,11 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -47,7 +52,7 @@ import okhttp3.ResponseBody;
 public class TriviaActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String CATEGORY_URL = "com.team11.animation_challenge.CATEGORY_URL";
     public static final String CATEGORY_TITLE = "com.team11.animation_challenge.CATEGORY_TITLE";
-    public static final int TIME_LIMIT = 1000 * 11; //11 sec
+    public static final int TIME_LIMIT = 1000 * 25; //11 sec
     public final OkHttpClient client = new OkHttpClient();
 
     private String url;
@@ -73,7 +78,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     private TranslateAnimation animObj;
     private ObjectAnimator progressBarOA;
     private ImageView modalTrophyImage;
-
+    private Animation mShakeAnimation;
+    private Animation mBounceAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,8 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         questionCount = (TextView) findViewById(R.id.question_count);
         timerProgressBar = (ProgressBar) findViewById(R.id.timer_progress_bar);
         timerProgressBar.setMax(TIME_LIMIT);
+        mShakeAnimation = AnimationUtils.loadAnimation(this, R.anim.skake_animation);
+        mBounceAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce_animation);
 
         button1 = (Button) findViewById(R.id.button_trivia_1);
         button2 = (Button) findViewById(R.id.button_trivia_2);
@@ -324,17 +332,18 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         if (btn.getText().toString().equals(correctAnswer.toString())) {
             //Right Answer Animation Here.
             ++correct;
-            btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_black_24dp, 0);
+            btn.startAnimation(mBounceAnimation);
+            btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ans_right, 0);
 
         } else {
             //Wrong Answer Animation Here
-            btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_wrong_black_24dp, 0);
+            btn.startAnimation(mShakeAnimation);
+            btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_ans_wrong, 0);
 
         }
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // This'll run 700 milliseconds later
                         moveNext();
                     }
                 },
