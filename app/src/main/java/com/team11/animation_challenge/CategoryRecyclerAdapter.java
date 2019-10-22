@@ -1,5 +1,6 @@
 package com.team11.animation_challenge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.ViewHolder> {
+    Activity mActivity;
     private final Context mContext;
     private final ArrayList<CategoryModel> mCategories;
     private final LayoutInflater mLayoutInflater;
@@ -59,6 +61,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
                     intent.putExtra(TriviaActivity.CATEGORY_URL, mUrl);
                     intent.putExtra(TriviaActivity.CATEGORY_TITLE, mCategoryTitle.getText());
                     mContext.startActivity(intent);
+                    ((Activity) mContext).overridePendingTransition(R.anim.from_middle, R.anim.to_middle);
                 }
             });
         }
