@@ -258,6 +258,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
         if (position == triviaRequest.getSize() - 1) {
             showCompletedDialog();
+            progressBarOA.cancel();
         } else {
             ++position;
             result = triviaRequest.getResults().get(position);

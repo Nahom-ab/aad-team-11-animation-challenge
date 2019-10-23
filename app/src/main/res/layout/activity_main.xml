@@ -2,46 +2,48 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/ic_main_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:id="@+id/welcome_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/welcomescreen" />
+        app:srcCompat="@drawable/welcome" />
 
-    <TextView
-        android:id="@+id/textView"
+        <TextView
+        android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/intro"
+        android:layout_marginBottom="16dp"
+        android:text="@string/description"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/choose"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/choose"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:textColor="@color/white"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="@string/choose_category"
-        app:backgroundTint="@color/colorPrimary"
+        android:text="@string/get_started"
+        app:backgroundTint="@android:color/transparent"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:strokeColor="@color/colorAccent"
         app:strokeWidth="3dp" />
 

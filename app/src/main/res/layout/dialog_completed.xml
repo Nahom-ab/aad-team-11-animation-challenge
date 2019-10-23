@@ -52,18 +52,23 @@
 
     <Button
         android:id="@+id/button_dialog"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
-        android:text="Try Again"
+        android:text="@string/try_again"
+        app:backgroundTint="@android:color/transparent"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_text" />
+        app:layout_constraintTop_toBottomOf="@+id/result_text"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="3dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

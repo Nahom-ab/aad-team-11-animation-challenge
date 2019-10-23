@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Team 11 Trivia</string>
     <string name="intro">Welcome to Team 11 Trivia!</string>
-    <string name="choose_category">Choose Category</string>
+    <string name="get_started">Lets Get Started</string>
     <string name="result_Info">You got %1$d out of %2$d!</string>
     <string name="question_Count">Question %1$d / %2$d</string>
     <string name="less_than_5">You\'re having a bad day!</string>
     <string name="five_to_7">Good Job, i bet you can do better!</string>
     <string name="eight_to_10">Awesome Job!</string>
     <string name="perfect_score">Perfect, Are you sure you\'re Human!</string>
+    <string name="description">You get 25 seconds to answer each question.</string>
+    <string name="try_again">Try Again</string>
 </resources>

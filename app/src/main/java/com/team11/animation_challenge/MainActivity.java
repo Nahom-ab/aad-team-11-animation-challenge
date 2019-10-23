@@ -13,33 +13,32 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public Button chooseButton;
-    Animation frombottom;
-    Animation fromtop;
-    ImageView welcomScreenImage;
-    TextView welcomeMessage;
+    Button getStarted;
+    Animation fromBottom;
+    Animation popEntrance;
+    ImageView welcomeImage;
+    TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
-        fromtop = AnimationUtils.loadAnimation(this, R.anim.from_top);
-        fromtop.setDuration(1000);
+        popEntrance = AnimationUtils.loadAnimation(this, R.anim.pop_entrance);
+        popEntrance.setDuration(1000);
 
-        frombottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom);
-        frombottom.setDuration(1000);
+        fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom);
+        fromBottom.setDuration(1000);
 
-        welcomScreenImage = findViewById(R.id.imageView);
-        welcomScreenImage.setAnimation(fromtop);
+        welcomeImage = findViewById(R.id.welcome_image);
+        welcomeImage.setAnimation(popEntrance);
+        description = findViewById(R.id.description);
+        description.setAnimation(fromBottom);
+        getStarted = findViewById(R.id.choose);
+        getStarted.setAnimation(fromBottom);
 
-        welcomeMessage = findViewById(R.id.textView);
-        welcomeMessage.setAnimation(fromtop);
-
-        chooseButton = findViewById(R.id.choose);
-        chooseButton.setAnimation(frombottom);
-
-        chooseButton.setOnClickListener(new View.OnClickListener() {
+        getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent triviaIntent = new Intent(view.getContext(), CategoryActivity.class);
