@@ -1,7 +1,49 @@
-# Team 11 Google Africa Developer Scholarship Phase II
+# Team 11 Google Africa Developer Scholarship Phase II - Android Challenge I
 
-## Android Challenge Challenge I
+## ❄️ Motivation:
+  #### We built this app for a team challenge on Animations for android, designated to us by Andela Learning Community 4 - Google Africa Developer Scholarship. 
 
+## ❄️ App Idea:
+  #### Multiple Questions Trivia App.
+
+## ❄️ App Detail:
+  This App is a simple **trivia game!** it contains challenging multiple questions with 10 different catagories.
+  Questions are fetched from [The Open Trivia Database](https://opentdb.com).You get 11 questions (*because we are team 11..😊*) For each quetion you get 25 seconds to answer or it will move on to the next question.
+  
+  There are 3,489 VERIFIED QUESTIONS in the [Free to use, user-contributed trivia question database](https://opentdb.com). From which this app utilizes about 60% of them, so you have an abundance of mind boggling questions to have fun with.
+
+## ❄️ Libraies Used:
+  * [OkHttp - Square Open Source](https://square.github.io/okhttp/)
+  * [gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
+
+## ❄️ Download:
+You can download the Apk and screenshots from [Here](./download).
+
+## ❄️ How to Contribute
+
+```
+# Create a fork then clone the fork on your machine
+git clone https://github.com/yourRepo.git
+
+# create a new branch to store any new changes. example of branch name: add-feature-xyz
+git branch my-branch
+
+# switch to that branch (line of development)
+git checkout my-branch
+
+# make changes, for example, edit `file1.md` and `file2.md` using the text editor
+
+# stage the changed files
+git add file1.md file2.md
+
+# take a snapshot of the staging area (anything that's been added)
+git commit -m "my snapshot"
+
+# push changes to github
+git push --set-upstream origin my-branch
+
+# Create a new pull request using Github interface
+```
 
 
 
