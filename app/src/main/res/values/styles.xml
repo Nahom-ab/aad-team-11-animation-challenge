@@ -16,5 +16,10 @@
         <item name="android:windowEnterAnimation">@anim/slide_left</item>
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>

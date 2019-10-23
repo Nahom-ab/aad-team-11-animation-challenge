@@ -1,10 +1,8 @@
 package com.team11.animation_challenge;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -13,27 +11,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
-    Context context;
-    ImageView imageViewOne,imageViewTwo;
+    private ImageView splashImage;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        imageViewOne = findViewById(R.id.imageView2);
-        imageViewTwo = findViewById(R.id.imageView3);
-        imageViewTwo.setVisibility(View.INVISIBLE);
-        Animation fadeinanim = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.fadein);
-        imageViewTwo.startAnimation(fadeinanim);
+        splashImage = findViewById(R.id.splash_image);
 
 
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                imageViewTwo.setVisibility(View.VISIBLE);
-                startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
-        },2000);
+        }, 2000);
+        Animation splashAnimation = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.splash_animation);
+        splashImage.startAnimation(splashAnimation);
     }
 }

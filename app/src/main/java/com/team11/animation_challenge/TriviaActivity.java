@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Animatable;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
@@ -77,7 +79,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
     private AlertDialog completedDialog;
     private TranslateAnimation animObj;
     private ObjectAnimator progressBarOA;
-    private ImageView modalTrophyImage;
+
     private Animation mShakeAnimation;
     private Animation mBounceAnimation;
 
@@ -171,36 +173,45 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void showCompletedDialog() {
-
         dialogBuilder = new AlertDialog.Builder(TriviaActivity.this);
         View layoutView = getLayoutInflater().inflate(R.layout.dialog_completed, null);
         dialogButton = (Button) layoutView.findViewById(R.id.button_dialog);
         TextView resultText = (TextView) layoutView.findViewById(R.id.result_text);
         TextView praiseText = (TextView) layoutView.findViewById(R.id.praise_text);
-        modalTrophyImage = (ImageView) findViewById(R.id.award);
+        ImageView modalImage = (ImageView) layoutView.findViewById(R.id.award);
 
         dialogBuilder.setView(layoutView);
         completedDialog = dialogBuilder.create();
         completedDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         resultText.setText(getString(R.string.result_Info, correct, 11));
         if (correct < 5) {
+            modalImage.setImageResource(R.drawable.ic_result_under_5);
             praiseText.setText(R.string.less_than_5);
         } else if (correct >= 5 && correct <= 7) {
+            modalImage.setImageResource(R.drawable.ic_result_under_7);
             praiseText.setText(R.string.five_to_7);
         } else if (correct > 8 && correct <= 10) {
             praiseText.setText(R.string.eight_to_10);
+            modalImage.setImageResource(R.drawable.ic_result_under_10);
         } else {
+            modalImage.setImageResource(R.drawable.ic_result_perfect);
             praiseText.setText(R.string.perfect_score);
         }
 
         completedDialog.getWindow().getAttributes().windowAnimations = R.style.CompletedDialogAnimation;
 
-        completedDialog.show();
+        try {
+            completedDialog.show();
+        } catch (WindowManager.BadTokenException e) {
+            Log.e("WindowManagerBad ", e.toString());
+        }
+
+
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 completedDialog.dismiss();
-                Intent i = new Intent(getBaseContext(), CategoryActivity.class);
+                Intent i = new Intent(TriviaActivity.this, CategoryActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
@@ -208,13 +219,6 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void trophyAnimation() {
-        PropertyValuesHolder rotateX = PropertyValuesHolder.ofFloat("rotationX", 0f, 360f);
-        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", -10000f, 0f);
-        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", -10000f, 0f);
-        ObjectAnimator imageOA = ObjectAnimator.ofPropertyValuesHolder(modalTrophyImage, rotateX).setDuration(10000);
-        imageOA.start();
-    }
 
     private void getUrlFromIntent() {
         Intent intent = getIntent();
@@ -293,6 +297,7 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         questions = new ArrayList<>();
         question = Html.fromHtml(result.getQuestion());
         correctAnswer = Html.fromHtml(result.getCorrect_answer());
+        Log.d("correctAnswer", String.valueOf(correctAnswer));
         Spanned incorrectAnswer1 = Html.fromHtml(result.getIncorrect_answers().get(0));
         Spanned incorrectAnswer2 = Html.fromHtml(result.getIncorrect_answers().get(1));
         Spanned incorrectAnswer3 = Html.fromHtml(result.getIncorrect_answers().get(2));
@@ -371,6 +376,9 @@ public class TriviaActivity extends AppCompatActivity implements View.OnClickLis
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             try {
+                correct = 0;
+                position = 0;
+                questions = new ArrayList<>();
                 fetch();
             } catch (Exception e) {
                 e.printStackTrace();
